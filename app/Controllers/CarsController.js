@@ -20,7 +20,7 @@ function _drawActiveCar() {
 // FIXME Step 5: Create a controller with a console log in the contructor
 export class CarsController {
 
-  constructor () {
+  constructor() {
     // NOTE first step should always be get a console log
     // console.log('Hello Jeremy, your cars controller is working')
     // _drawCars()
