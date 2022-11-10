@@ -2,6 +2,7 @@ import { appState } from "../AppState.js";
 import { House } from "../Models/House.js";
 import { homesService } from "../Services/HomesService.js";
 import { getFormData } from "../Utils/FormHandler.js";
+import { Pop } from "../Utils/Pop.js";
 import { setHTML } from "../Utils/Writer.js";
 
 
@@ -11,12 +12,24 @@ function _drawHomes() {
   setHTML('listings', template)
   setHTML('listing-form', House.GetHouseFormTemplate())
 }
+function _drawActiveHouse() {
+  setHTML('details', appState.activeHouse.ActiveHouseTemplate)
+}
+
+
 export class HomesController {
 
   constructor() {
     // console.log(appState.houses)
     appState.on('houses', _drawHomes)
-    // _drawHomes()
+    appState.on('activeHouse', _drawActiveHouse)
+  }
+
+  async removeHouse(houseId) {
+    if (await Pop.confirm('Are you sure want to delete that car')) {
+      homesService.removeHouse(houseId)
+
+    }
   }
 
   createHouse() {
@@ -28,6 +41,9 @@ export class HomesController {
     homesService.createHouse(formData)
   }
 
+  setActiveHouse(houseId) {
+    homesService.setActiveHouse(houseId)
+  }
   showHomes() {
     _drawHomes()
   }

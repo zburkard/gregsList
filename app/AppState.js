@@ -19,7 +19,10 @@ class AppState extends EventEmitter {
   activeCar = null
 
   /** @type {import('./Models/House').House[]} */
-  houses = []
+  houses = loadState('houses', [House])
+
+  /** @type {import('./Models/House').House|null} */
+  activeHouse = null
 
 
 

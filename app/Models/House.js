@@ -5,13 +5,14 @@ export class House {
 
   constructor(data) {
     this.id = generateId()
-    // this.createdAt = new Date()
+    this.createdAt = new Date()
     this.location = data.location
     this.price = data.price
     this.sqft = data.sqft
     this.bedrooms = data.bedrooms
     this.bathrooms = data.bathrooms
     this.img = data.img || "test"
+    this.description = data.description
   }
   get CardTemplate() {
     return `
@@ -25,10 +26,10 @@ export class House {
             <span>$ ${this.price}</span>
           </h5>
           <div class="d-flex justify-content-between">
-            <button onclick="app.carsController.setActiveHouse('${this.id}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button onclick="app.homesController.setActiveHouse('${this.id}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             See Details
             </button>
-            <button onclick="app.carsController.removeHouse('${this.id}')" title="Delete car!" class="btn btn-danger">
+            <button onclick="app.homesController.removeHouse('${this.id}')" title="Delete house!" class="btn btn-danger">
               <i class="mdi mdi-delete"></i>
             </button>
           </div>
@@ -36,6 +37,28 @@ export class House {
       </div>
     </div>
     
+    `
+  }
+  get ActiveHouseTemplate() {
+    return `
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="exampleModalLabel">${this.location}</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <h5>
+      ${this.createdAt.toLocaleDateString()}
+      </h5>
+      <img src="${this.img}" alt="car" class="img-fluid">
+      <b>Sq. Footage:${this.sqft}</b>
+      <p>${this.description}</p>
+      <div>Bedrooms: ${this.bedrooms} miles</div>
+      <div>Bathrooms: ${this.bathrooms}</div>
+      <div>Price:${this.price}</div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
     `
   }
 
@@ -56,8 +79,8 @@ export class House {
         <label for="house-img">Image</label>
       </div>
       <div class="form-floating mb-3">
-        <input required type="number" class="form-control" id="sq-footage" placeholder="Square Footage" name="price">
-        <label for="sq-footage">Square Footage</label>
+        <input required type="number" class="form-control" id="sqft" placeholder="Square Footage" name="sqft">
+        <label for="sqft">Square Footage</label>
       </div>
       <div class="form-floating mb-3">
         <input required type="number" class="form-control" id="bedrooms" placeholder="Bedrooms" name="bedrooms">
@@ -67,6 +90,10 @@ export class House {
         <input required type="number" class="form-control" id="bathrooms" placeholder="Bathrooms" name="bathrooms">
         <label for="bathrooms">Bathrooms</label>
       </div>
+      <div class="form-floating mb-3">
+      <input required type="text" class="form-control" id="description" placeholder="Description" name="description">
+      <label for="description">Description</label>
+    </div>
       <button type="submit" class="btn btn-success mt-3">Submit</button>
       <button type="reset" class="btn btn-outline-danger mt-3">Reset</button>
     </form>
